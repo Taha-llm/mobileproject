@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668321299361",
+    "project_id": "mobileproject-44f18",
+    "storage_bucket": "mobileproject-44f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668321299361:android:9201718cb42934af5829e0",
+        "android_client_info": {
+          "package_name": "com.example.hope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdxMbzI4dYn-PJc1sOjKsRLJOv5R0U7Rs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

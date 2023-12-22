@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hope/utils/colors.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class ExchangePost extends StatelessWidget {
   const ExchangePost({super.key});
