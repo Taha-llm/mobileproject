@@ -6,6 +6,7 @@ import 'package:hope/screens/login.dart';
 import 'package:hope/screens/profile.dart';
 import 'package:hope/screens/settings.dart';
 import 'package:hope/screens/wallet.dart';
+import 'package:hope/utils/auth.dart';
 import 'package:hope/utils/colors.dart';
 import 'package:hope/widgets/cryptopost.dart';
 import 'package:hope/widgets/exchangepost.dart';
@@ -21,7 +22,6 @@ class ScreenLayout extends StatefulWidget {
 }
 
 class _ScreenLayoutState extends State<ScreenLayout> {
-
   int index = 1;
   final screens = [
     WalletScreen(),
@@ -29,6 +29,12 @@ class _ScreenLayoutState extends State<ScreenLayout> {
     AppSettingsScreen(),
     ProfileScreen()
   ];
+
+  void logout() {
+    final _auth = AuthService();
+    _auth.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,10 +64,8 @@ class _ScreenLayoutState extends State<ScreenLayout> {
                                 child: const Text('Close')),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
+                                  Navigator.of(context).pop();
+                                  logout();
                                 },
                                 child: const Text('Sign Out'))
                           ],
@@ -83,42 +87,42 @@ class _ScreenLayoutState extends State<ScreenLayout> {
       ),
       body: screens[index],
       bottomNavigationBar: NavigationBar(
-      selectedIndex: index,
-      onDestinationSelected: (index) => setState(() => this.index = index),
+        selectedIndex: index,
+        onDestinationSelected: (index) => setState(() => this.index = index),
 
-      destinations: [
-        NavigationDestination(
-          icon: Icon(
-            Icons.account_balance_wallet_outlined,
-            color: gold,
-            size: 30,
+        destinations: [
+          NavigationDestination(
+            icon: Icon(
+              Icons.account_balance_wallet_outlined,
+              color: gold,
+              size: 30,
+            ),
+            label: 'Balance',
           ),
-          label: 'Balance',
-        ),
-        NavigationDestination(
-            icon: Icon(
-              Icons.home_filled,
-              color: gold,
-              size: 30,
-            ),
-            label: 'Home'),
-        NavigationDestination(
-            icon: Icon(
-              Icons.settings_outlined,
-              color: gold,
-              size: 30,
-            ),
-            label: 'Settings'),
-        NavigationDestination(
-            icon: Icon(
-              Icons.account_circle,
-              color: gold,
-              size: 30,
-            ),
-            label: 'Profile')
-      ],
-      //onDestinationSelected: ,
-    ),
+          NavigationDestination(
+              icon: Icon(
+                Icons.home_filled,
+                color: gold,
+                size: 30,
+              ),
+              label: 'Home'),
+          NavigationDestination(
+              icon: Icon(
+                Icons.settings_outlined,
+                color: gold,
+                size: 30,
+              ),
+              label: 'Settings'),
+          NavigationDestination(
+              icon: Icon(
+                Icons.account_circle,
+                color: gold,
+                size: 30,
+              ),
+              label: 'Profile')
+        ],
+        //onDestinationSelected: ,
+      ),
     );
   }
 }

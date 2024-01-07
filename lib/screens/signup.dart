@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hope/layout/screenlayout.dart';
+import 'package:hope/screens/home.dart';
 import 'package:hope/screens/login.dart';
+import 'package:hope/utils/auth.dart';
 import 'package:hope/utils/colors.dart';
 import 'package:hope/widgets/text_field_input.dart';
 
@@ -15,12 +18,45 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+
+  void signUp(BuildContext context) {
+    final _auth = AuthService();
+    if (_passwordController.text == _confirmPasswordController.text) {
+      try {
+        _auth.signUpWithEmailPassword(
+          _emailController.text,
+          _passwordController.text,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScreenLayout()));
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                    "Passwords don't match! Please confirm your password."),
+              ));
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
+    _passwordController.dispose();
     _passwordController.dispose();
     _bioController.dispose();
     _usernameController.dispose();
@@ -53,7 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 64,
                 ),
                 const SizedBox(
-                  height: 64,
+                  height: 30,
                 ),
                 //UserName input
                 TextFieldInput(
@@ -61,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     hintText: 'Enter your Username',
                     textInputType: TextInputType.text),
                 const SizedBox(
-                  height: 24,
+                  height: 14,
                 ),
                 //input mail
                 TextFieldInput(
@@ -69,7 +105,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     hintText: 'Enter your e-mail',
                     textInputType: TextInputType.emailAddress),
                 const SizedBox(
-                  height: 24,
+                  height: 14,
                 ),
                 //input pwd
                 TextFieldInput(
@@ -79,7 +115,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   isPass: true,
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 14,
+                ),
+                TextFieldInput(
+                  textEditingController: _confirmPasswordController,
+                  hintText: 'Confirm password',
+                  textInputType: TextInputType.text,
+                  isPass: true,
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 //login button
                 InkWell(
@@ -95,9 +140,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       color: Colors.black,
                     ),
                   ),
+                  onTap: () {
+                    signUp(context);
+                  },
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 20,
                 ),
                 Flexible(
                   child: Container(),
@@ -120,8 +168,8 @@ class _SignupScreenState extends State<SignupScreen> {
                       onTap: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginScreen())
-                        );
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
                       },
                       child: Container(
                         child: Text(
